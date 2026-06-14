@@ -1,0 +1,116 @@
+* {
+  /* ブラウザが勝手につける外側の余白をゼロにする */
+  margin: 0;
+  padding: 0;
+  /* paddingやborderを含めてwidthを計算する。レイアウトが崩れにくくなる */
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  background: #f5f5f5;
+  /* 子要素を横並びや中央寄せしやすくするレイアウトモード */
+  display: flex;
+  /* flex指定時に水平方向を中央寄せにする */
+  justify-content: center;
+  /* 内側の余白。上下40px・左右16px */
+  padding: 40px 16px;
+}
+
+/* カード全体の箱 */
+.container {
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+/* タイトル */
+h1 {
+  font-size: 24px;
+  margin-bottom: 24px;
+  color: #222;
+}
+
+.input-area {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+/* 入力エリア */
+input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  /* フォーカス時のブラウザデフォルトの青枠を消す */
+  outline: none;
+  /* 代わりに自分でデザインした枠線を表示 */
+  /* border-color: #4a90e2; */
+}
+
+input:focus {
+  /* マウスを乗せた時の状態 */
+  border-color: #4a90e2;
+  /* 少し暗い青にして「押せる」感を出す */
+}
+
+button {
+  padding: 10px 18px;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #357abd;
+}
+
+/* タスクリスト */
+ul {
+  /* デフォルトの「・」（黒丸）を消す */
+  list-style: none;
+}
+
+li {
+  /* チェックボックス・テキスト・削除ボタンを横並びに */
+  display: flex;
+  /* 縦方向を中央揃えにする */
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 15px;
+  color: #333;
+}
+
+/* 完了チェック済みのタスク */
+li.done {
+  /* 打ち消し線をひく */
+  text-decoration: line-through;
+  color: #aaa;
+}
+
+/* 削除ボタン */
+.delete-btn {
+  margin-left: auto;
+  /* 左側の余白を自動で最大にとる→右端に押し出される */
+  background: none;
+  /* 背景なし */
+  color: #ccc;
+  /* 薄いグレー。目立たせすぎない */
+  font-size: 18px;
+  padding: 0 4px;
+}
+
+/* 削除ボタンにマウスを乗せたときの状態 */
+.delete-btn:hover {
+  color: #e74c3c;
+  background: none;
+}
