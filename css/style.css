@@ -1,64 +1,105 @@
 * {
-  /* ブラウザが勝手につける外側の余白をゼロにする */
   margin: 0;
   padding: 0;
-  /* paddingやborderを含めてwidthを計算する。レイアウトが崩れにくくなる */
   box-sizing: border-box;
 }
 
 body {
   font-family: sans-serif;
   background: #f5f5f5;
-  /* 子要素を横並びや中央寄せしやすくするレイアウトモード */
   display: flex;
-  /* flex指定時に水平方向を中央寄せにする */
   justify-content: center;
-  /* 内側の余白。上下40px・左右16px */
   padding: 40px 16px;
 }
 
-/* カード全体の箱 */
 .container {
   background: white;
   border-radius: 12px;
   padding: 32px;
   width: 100%;
-  max-width: 480px;
+  max-width: 1080px;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
 }
-/* タイトル */
+
 h1 {
   font-size: 24px;
   margin-bottom: 24px;
   color: #222;
 }
 
-.input-area {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 24px;
-}
-
-/* 入力エリア */
 input {
-  flex: 1;
+  width: 100%;
   padding: 10px 14px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 15px;
-  /* フォーカス時のブラウザデフォルトの青枠を消す */
   outline: none;
-  /* 代わりに自分でデザインした枠線を表示 */
-  /* border-color: #4a90e2; */
+}
+
+#start-input::-webkit-datetime-edit-text,
+#start-input::-webkit-datetime-edit-hour-field,
+#start-input::-webkit-datetime-edit-minute-field,
+#end-input::-webkit-datetime-edit-text,
+#end-input::-webkit-datetime-edit-hour-field,
+#end-input::-webkit-datetime-edit-minute-field {
+  color: #aaa;
+}
+#start-input,
+#end-input {
+  cursor: pointer;
 }
 
 input:focus {
-  /* マウスを乗せた時の状態 */
   border-color: #4a90e2;
-  /* 少し暗い青にして「押せる」感を出す */
+}
+
+.time-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  color: #aaa;
+  gap: 4px;
+}
+
+.time-field input {
+  width: 100%; /* 160px → 100% */
+}
+
+#todo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.form-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+#todo-input {
+  flex: 1;
+  width: auto;
+}
+
+.date-group {
+  display: block;
+  border-bottom: none;
+  padding: 0;
+}
+
+#add-btn {
+  width: 100%;
+  margin: 0;
+  white-space: nowrap;
 }
 
 button {
+  width: 100%;
   padding: 10px 18px;
   background: #4a90e2;
   color: white;
@@ -66,51 +107,150 @@ button {
   border-radius: 8px;
   font-size: 15px;
   cursor: pointer;
+  margin: 8px 0;
 }
 
 button:hover {
   background: #357abd;
 }
 
-/* タスクリスト */
 ul {
-  /* デフォルトの「・」（黒丸）を消す */
   list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 li {
-  /* チェックボックス・テキスト・削除ボタンを横並びに */
   display: flex;
-  /* 縦方向を中央揃えにする */
   align-items: center;
   gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid #f0f0f0;
+  padding: 14px 16px;
+  background: #fff;
+  border: 1px solid #ebebeb;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   font-size: 15px;
   color: #333;
+  transition: box-shadow 0.15s;
 }
 
-/* 完了チェック済みのタスク */
-li.done {
-  /* 打ち消し線をひく */
-  text-decoration: line-through;
+li:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+.card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.task-text {
+  font-size: 15px;
+  font-weight: 500;
+  color: #222;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.task-time {
+  font-size: 12px;
   color: #aaa;
 }
 
-/* 削除ボタン */
-.delete-btn {
-  margin-left: auto;
-  /* 左側の余白を自動で最大にとる→右端に押し出される */
-  background: none;
-  /* 背景なし */
-  color: #ccc;
-  /* 薄いグレー。目立たせすぎない */
-  font-size: 18px;
-  padding: 0 4px;
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
-/* 削除ボタンにマウスを乗せたときの状態 */
+li.done .task-text {
+  text-decoration: line-through;
+  color: #bbb;
+}
+
+li.done .task-time {
+  color: #ccc;
+}
+
+li input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.delete-btn {
+  background: none;
+  color: #ccc;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  width: auto;
+  padding: 4px 6px;
+  margin: 0;
+  line-height: 1;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+}
+
 .delete-btn:hover {
   color: #e74c3c;
-  background: none;
+  background: #fff0ee;
+}
+
+#empty-message {
+  text-align: center;
+  color: #aaa;
+  font-size: 14px;
+  margin-top: 24px;
+}
+
+.hidden {
+  display: none;
+}
+
+.section {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: #aaa;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.done-title {
+  color: #4a90e2;
+}
+
+.section-title span {
+  background: #f0f0f0;
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-size: 12px;
+  margin-left: 6px;
+}
+
+#today-date {
+  margin-bottom: 24px;
+}
+
+#today-year {
+  font-size: 15px;
+  color: #4a90e2;
+}
+
+#today-main {
+  font-size: 24px;
+  font-weight: bold;
+  color: #4a90e2;
 }

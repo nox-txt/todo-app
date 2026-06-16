@@ -1,60 +1,162 @@
 const input = document.getElementById("todo-input");
-const addBtn = document.getElementById("add-btn");
-const todoList = document.getElementById("todo-list");
 const form = document.getElementById("todo-form");
+const activeList = document.getElementById("active-list");
+const doneList = document.getElementById("done-list");
+const emptyMessage = document.getElementById("empty-message");
+const activeCount = document.getElementById("active-count");
+const doneCount = document.getElementById("done-count");
+const activeSection = document.getElementById("active-section");
+const doneSection = document.getElementById("done-section");
+const startInput = document.getElementById("start-input");
+const endInput = document.getElementById("end-input");
 
-// フォームが送信された時の処理（ボタンクリック or Enterキー）
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
-  // フォームのデフォルト動作（ページリロード）をキャンセル
-  const text = input.value.trim();
-  // input.valueで入力欄の文字を取得。trim()で前後の空白を除去
-  if (text === "") return;
-  // 空なら処理を止める
+//タスク数を更新
+function updateCounts() {
+  activeCount.textContent = activeList.children.length;
+  doneCount.textContent = doneList.children.length;
 
-  // liタグを新しく作る
+  const total = activeList.children.length + doneList.children.length;
+  if (total === 0) {
+    emptyMessage.classList.remove("hidden");
+    activeSection.classList.add("hidden");
+    doneSection.classList.add("hidden");
+  } else {
+    emptyMessage.classList.add("hidden");
+    activeSection.classList.remove("hidden");
+    doneSection.classList.remove("hidden");
+  }
+}
+
+function saveTasks() {
+  const tasks = [];
+  Array.from(activeList.children).forEach((li) => {
+    tasks.push({
+      text: li.querySelector(".task-text")?.textContent ?? "",
+      start: li.querySelector(".task-date")?.dataset.date ?? "",
+      end: li.querySelector(".task-end")?.dataset.end ?? "",
+      done: false,
+    });
+  });
+  Array.from(doneList.children).forEach((li) => {
+    tasks.push({
+      text: li.querySelector(".task-text")?.textContent ?? "",
+      start: li.querySelector(".task-date")?.dataset.date ?? "",
+      end: li.querySelector(".task-end")?.dataset.end ?? "",
+      done: true,
+    });
+  });
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function loadTasks() {
+  const saved = localStorage.getItem("tasks");
+  if (!saved) return;
+  JSON.parse(saved).forEach((task) => {
+    addTask(task.text, task.done, task.start ?? "", task.end ?? "");
+  });
+}
+
+function addTask(text, done = false, start = "", end = "") {
   const li = document.createElement("li");
 
-  // チェックボックスを作る
-  const checkbox = document.createElement("input");
-  checkbox.type = "checkbox";
-  // type="checkbox"でチェックボックスの見た目にする
-
-  // タスクのテキストを作る
   const span = document.createElement("span");
+  span.classList.add("task-text");
   span.textContent = text;
 
-  // 削除ボタンを作る
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.checked = done;
+
   const deleteBtn = document.createElement("button");
-  deleteBtn.textContent = "✕";
-  // ボタンの文字を✕にする
+  deleteBtn.textContent = "X";
   deleteBtn.classList.add("delete-btn");
-  // CSSの.delete-btnスタイルを適用する
 
-  // liの中にチェックボックス・テキスト・削除ボタンを入れる
-  li.appendChild(checkbox);
-  li.appendChild(span);
-  li.appendChild(deleteBtn);
-  // appendChildで親要素の中に子要素を追加する
+  const cardBody = document.createElement("div");
+  cardBody.classList.add("card-body");
 
-  // ulの中にliを追加する→画面にタスクが表示される
-  todoList.appendChild(li);
+  cardBody.appendChild(span);
 
-  // 入力欄を空にする（次のタスクを入力しやすくする）
-  input.value = "";
+  const timeSpan = document.createElement("span");
+  timeSpan.classList.add("task-time");
 
-  checkbox.addEventListener("change", function () {
+  const startSpan = document.createElement("span");
+  startSpan.classList.add("task-date");
+  startSpan.dataset.date = start;
+
+  const endSpan = document.createElement("span");
+  endSpan.classList.add("task-end");
+  endSpan.dataset.end = end;
+
+  if (start || end) {
+    timeSpan.textContent = start && end ? `${start} → ${end}` : start || end;
+    cardBody.appendChild(timeSpan);
+  }
+  cardBody.appendChild(startSpan);
+  cardBody.appendChild(endSpan);
+
+  const cardActions = document.createElement("div");
+  cardActions.classList.add("card-actions");
+  cardActions.appendChild(checkbox);
+  cardActions.appendChild(deleteBtn);
+
+  li.appendChild(cardBody);
+  li.appendChild(cardActions);
+
+  if (done) {
+    li.classList.add("done");
+    doneList.appendChild(li);
+  } else {
+    activeList.appendChild(li);
+  }
+
+  updateCounts();
+
+  checkbox.addEventListener("change", () => {
     if (checkbox.checked) {
       li.classList.add("done");
-      // チェックされたらdoneクラスをつける→打ち消し線が出る
+      doneList.appendChild(li);
     } else {
       li.classList.remove("done");
-      // チェックを外したらdoneクラスを消す
+      activeList.appendChild(li);
     }
+    saveTasks();
+    updateCounts();
   });
 
-  deleteBtn.addEventListener("click", function () {
-    todoList.removeChild(li);
-    // ulからliを削除する→画面からタスクが消える
+  deleteBtn.addEventListener("click", () => {
+    li.remove();
+    saveTasks();
+    updateCounts();
   });
+}
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const text = input.value.trim();
+  if (text === "") return;
+  addTask(text, false, startInput.value, endInput.value); // ← date を渡す
+  saveTasks();
+  input.value = "";
+  startInput.value = "";
+  endInput.value = "";
 });
+
+const todayYear = document.getElementById("today-year");
+const todayMain = document.getElementById("today-main");
+const now = new Date();
+const year = now.getFullYear();
+const month = now.getMonth() + 1;
+const day = now.getDate();
+const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
+const weekday = weekdays[now.getDay()];
+todayYear.textContent = `${year}年`;
+todayMain.textContent = `${month}月${day}日（${weekday}）`;
+
+document.getElementById("start-input").addEventListener("click", function () {
+  this.showPicker();
+});
+document.getElementById("end-input").addEventListener("click", function () {
+  this.showPicker();
+});
+
+loadTasks();

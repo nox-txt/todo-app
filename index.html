@@ -3,24 +3,58 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="./css/style.css" />
 
     <title>To Do アプリ</title>
   </head>
   <body>
     <div class="container">
-      <h1>To Do アプリ</h1>
+      <div id="today-date">
+        <p id="today-year"></p>
+        <p id="today-main"></p>
+      </div>
+
       <form id="todo-form">
-        <input
-          type="text"
-          id="todo-input"
-          placeholder="タスクを入力してください"
-          required
-        />
-        <button id="add-btn">追加</button>
+        <div class="form-row">
+          <input
+            type="text"
+            id="todo-input"
+            placeholder="タスクを入力してください"
+          />
+        </div>
+        <div class="form-row">
+          <div class="time-field">
+            <label for="start-input">開始時間</label>
+            <input type="time" id="start-input" />
+          </div>
+          <div class="time-field">
+            <label for="end-input">終了時間</label>
+            <input type="time" id="end-input" />
+          </div>
+        </div>
+        <div class="form-row">
+          <button id="add-btn">追加</button>
+        </div>
       </form>
-      <ul id="todo-list"></ul>
+      <!-- 未完了タスクエリア -->
+      <div class="section hidden" id="active-section">
+        <h2 class="section-title">
+          未完了タスク<span id="active-count">0</span>
+        </h2>
+
+        <ul id="active-list"></ul>
+      </div>
+
+      <!-- 完了タスクエリア -->
+      <div class="section hidden" id="done-section">
+        <h2 class="section-title done-title">
+          完了 <span id="done-count">0</span>
+        </h2>
+        <ul id="done-list"></ul>
+      </div>
+
+      <p id="empty-message">タスクがありません</p>
     </div>
-    <script src="../js/main.js"></script>
+    <script src="./js/main.js"></script>
   </body>
 </html>
