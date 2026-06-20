@@ -1297,20 +1297,30 @@ li.overdue .task-time {
 
   .nav-item {
     flex-direction: column;
-    gap: 2px;
-    padding: 8px 16px;
+    align-items: center;
+    gap: 3px;
+    padding: 10px 0 0;
     font-size: 10px;
     flex: 1;
-    justify-content: center;
+    justify-content: flex-start;
+    color: #aaa;
+    background: none;
   }
 
   .nav-item .ti {
-    font-size: 22px;
+    font-size: 24px;
+  }
+
+  .nav-label {
+    display: block;
+    font-size: 10px;
   }
 
   .nav-item.active {
     border-right: none;
-    border-top: 2px solid #4a90e2;
+    border-top: none;
+    color: #4a90e2;
+    background: none;
   }
 
   .layout {
