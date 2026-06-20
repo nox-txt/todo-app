@@ -1277,7 +1277,7 @@ li.overdue .task-time {
 @media (max-width: 768px) {
   #sidebar {
     width: 100%;
-    height: calc(60px + env(safe-area-inset-bottom));
+    height: calc(75px + env(safe-area-inset-bottom));
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
@@ -1299,7 +1299,7 @@ li.overdue .task-time {
     flex-direction: column;
     align-items: center;
     gap: 3px;
-    padding: 10px 0 0;
+    padding: 12px 0 calc(8px + env(safe-area-inset-bottom));
     font-size: 10px;
     flex: 1;
     justify-content: flex-start;
