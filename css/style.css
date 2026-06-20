@@ -1,3 +1,7 @@
+/* =====================
+   リセット・ベース設定
+   ===================== */
+
 * {
   margin: 0;
   padding: 0;
@@ -7,25 +11,80 @@
 body {
   font-family: sans-serif;
   background: #f5f5f5;
+  margin: 0;
+}
+
+/* =====================
+   レイアウト
+   ===================== */
+
+.layout {
   display: flex;
-  justify-content: center;
-  padding: 40px 16px;
+  min-height: 100vh;
+  background: white;
+}
+
+#sidebar {
+  width: 200px;
+  flex-shrink: 0;
+  background: white;
+  border-right: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.sidebar-logo {
+  font-size: 16px;
+  font-weight: 700;
+  color: #4a90e2;
+  padding: 0 20px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  font-size: 14px;
+  color: #888;
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  background: #f5f8ff;
+  color: #4a90e2;
+}
+
+.nav-item.active {
+  color: #4a90e2;
+  background: #e6f1fb;
+  font-weight: 500;
+  border-right: 3px solid #4a90e2;
+}
+
+.nav-item .ti {
+  font-size: 18px;
 }
 
 .container {
+  flex: 1;
+  padding: 40px 32px;
+  max-width: 800px;
   background: white;
-  border-radius: 12px;
-  padding: 32px;
-  width: 100%;
-  max-width: 1080px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
 }
 
-h1 {
-  font-size: 24px;
-  margin-bottom: 24px;
-  color: #222;
-}
+/* =====================
+   フォーム
+   ===================== */
 
 input {
   width: 100%;
@@ -36,6 +95,40 @@ input {
   outline: none;
 }
 
+input:focus {
+  border-color: #4a90e2;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  resize: none;
+  font-family: sans-serif;
+}
+
+textarea:focus {
+  border-color: #4a90e2;
+}
+
+select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  cursor: pointer;
+  background: white;
+}
+
+select:focus {
+  border-color: #4a90e2;
+}
+
 #start-input::-webkit-datetime-edit-text,
 #start-input::-webkit-datetime-edit-hour-field,
 #start-input::-webkit-datetime-edit-minute-field,
@@ -44,26 +137,10 @@ input {
 #end-input::-webkit-datetime-edit-minute-field {
   color: #aaa;
 }
+
 #start-input,
 #end-input {
   cursor: pointer;
-}
-
-input:focus {
-  border-color: #4a90e2;
-}
-
-.time-field {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  font-size: 12px;
-  color: #aaa;
-  gap: 4px;
-}
-
-.time-field input {
-  width: 100%; /* 160px → 100% */
 }
 
 #todo-form {
@@ -86,17 +163,80 @@ input:focus {
   width: auto;
 }
 
-.date-group {
-  display: block;
-  border-bottom: none;
-  padding: 0;
+.time-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  color: #aaa;
+  gap: 4px;
 }
 
-#add-btn {
+.time-field input {
   width: 100%;
-  margin: 0;
-  white-space: nowrap;
 }
+
+.time-input-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.time-input-row input {
+  flex: 1;
+  width: auto;
+}
+
+.time-clear-btn {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  color: #aaa;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.time-clear-btn:hover {
+  background: #f5f5f5;
+  color: #e74c3c;
+  border-color: #e74c3c;
+}
+
+.options-toggle {
+  width: 100%;
+  padding: 8px 12px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #aaa;
+  cursor: pointer;
+  user-select: none;
+}
+
+.options-toggle:hover {
+  background: #ebebeb;
+}
+
+.option-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: #aaa;
+}
+
+/* =====================
+   ボタン
+   ===================== */
 
 button {
   width: 100%;
@@ -113,6 +253,41 @@ button {
 button:hover {
   background: #357abd;
 }
+
+#add-btn {
+  width: 100%;
+  margin: 0;
+  white-space: nowrap;
+}
+
+#fab-btn {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  z-index: 50;
+  box-shadow: 0 4px 16px rgba(74, 144, 226, 0.4);
+}
+
+#fab-btn:hover {
+  background: #357abd;
+}
+
+/* =====================
+   タスクカード
+   ===================== */
 
 ul {
   list-style: none;
@@ -133,32 +308,68 @@ li {
   font-size: 15px;
   color: #333;
   transition: box-shadow 0.15s;
+  cursor: grab;
 }
 
 li:hover {
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.09);
 }
 
+li.dragging {
+  opacity: 0.4;
+  cursor: grabbing;
+}
+
 .card-body {
   flex: 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 4px;
   min-width: 0;
+  align-items: center;
+}
+
+.task-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
 }
 
 .task-text {
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 700;
   color: #222;
+  margin-left: 10px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.task-time {
+.task-memo {
   font-size: 12px;
   color: #aaa;
+  margin-left: 10px;
+}
+
+.task-memo:empty {
+  display: none;
+}
+
+.task-time {
+  font-size: 14px;
+  color: #aaa;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.4;
+}
+
+.time-separator {
+  font-size: 10px;
+  color: #ccc;
+  align-self: center;
 }
 
 .card-actions {
@@ -166,6 +377,62 @@ li:hover {
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
+}
+
+.priority-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  min-width: 20px;
+  flex-shrink: 0;
+}
+
+.priority-group-header {
+  font-size: 13px;
+  font-weight: bold;
+  padding: 8px 4px 4px;
+  margin-top: 8px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+li input[type="checkbox"] {
+  appearance: none;
+  width: 32px;
+  height: 32px;
+  border: 2px dashed #ccc;
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+  transition: all 0.2s;
+  margin: 0;
+}
+
+li input[type="checkbox"]::after {
+  content: "";
+  position: absolute;
+  display: block;
+  left: 9px;
+  top: 4px;
+  width: 7px;
+  height: 13px;
+  border: 2px solid #ccc;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+li input[type="checkbox"]:checked {
+  background: #4a90e2;
+  border: 2px solid #4a90e2;
+}
+
+li input[type="checkbox"]:checked::after {
+  display: block;
 }
 
 li.done .task-text {
@@ -177,30 +444,20 @@ li.done .task-time {
   color: #ccc;
 }
 
-li input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.delete-btn {
-  background: none;
-  color: #ccc;
-  font-size: 14px;
-  border: none;
-  cursor: pointer;
-  width: auto;
-  padding: 4px 6px;
-  margin: 0;
-  line-height: 1;
-  border-radius: 6px;
-  transition: color 0.15s, background 0.15s;
-}
-
-.delete-btn:hover {
+li.overdue .task-text {
   color: #e74c3c;
-  background: #fff0ee;
+}
+
+li.overdue .task-time {
+  color: #e74c3c;
+}
+
+/* =====================
+   表示・非表示
+   ===================== */
+
+.hidden {
+  display: none !important;
 }
 
 #empty-message {
@@ -208,10 +465,6 @@ li input[type="checkbox"] {
   color: #aaa;
   font-size: 14px;
   margin-top: 24px;
-}
-
-.hidden {
-  display: none;
 }
 
 .section {
@@ -228,10 +481,6 @@ li input[type="checkbox"] {
   border-bottom: 1px solid #f0f0f0;
 }
 
-.done-title {
-  color: #4a90e2;
-}
-
 .section-title span {
   background: #f0f0f0;
   padding: 2px 8px;
@@ -240,8 +489,32 @@ li input[type="checkbox"] {
   margin-left: 6px;
 }
 
+.section-title .ti {
+  font-size: 15px;
+  vertical-align: -2px;
+}
+
+.done-title {
+  color: #4a90e2;
+}
+
+.overdue-title {
+  color: #e74c3c;
+}
+
+/* =====================
+   日付ナビゲーション・進捗バー
+   ===================== */
+
 #today-date {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   margin-bottom: 24px;
+}
+
+#date-display {
+  text-align: left;
 }
 
 #today-year {
@@ -253,4 +526,837 @@ li input[type="checkbox"] {
   font-size: 24px;
   font-weight: bold;
   color: #4a90e2;
+}
+
+#prev-date,
+#next-date {
+  background: none;
+  border: none;
+  color: #4a90e2;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  width: auto;
+  margin: 0;
+}
+
+#prev-date:hover,
+#next-date:hover {
+  background-color: #eee;
+}
+
+#progress-area {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  margin-left: auto;
+}
+
+#progress-title {
+  font-size: 11px;
+  color: #888;
+}
+
+#progress-bar-wrap {
+  width: 80px;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #4a90e2;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+#progress-label {
+  font-size: 11px;
+  color: #888;
+}
+
+/* =====================
+   タスク追加シート
+   ===================== */
+
+#add-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#add-sheet {
+  background: white;
+  border-radius: 16px;
+  padding: 16px 24px 32px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+#add-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+
+#add-sheet-handle {
+  width: 40px;
+  height: 4px;
+  background: #ddd;
+  border-radius: 2px;
+  margin: 0 auto 16px;
+}
+
+#add-sheet-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 16px;
+}
+
+#add-sheet-close {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 20px;
+  cursor: pointer;
+  width: auto;
+  margin: 0;
+  padding: 4px;
+  line-height: 1;
+}
+
+#add-sheet-close:hover {
+  color: #555;
+  background: #f0f0f0;
+  border-radius: 6px;
+}
+
+/* =====================
+   モーダル
+   ===================== */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  padding: 28px;
+  width: 90%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-title {
+  font-size: 16px;
+  color: #222;
+}
+
+.modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  color: #aaa;
+}
+
+.modal-field label .ti {
+  font-size: 14px;
+  vertical-align: -2px;
+  margin-right: 2px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.modal-btn-delete {
+  background: none;
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+  width: auto;
+  margin: 0;
+  margin-right: auto;
+}
+
+.modal-btn-delete:hover {
+  background: #fff0ee;
+}
+
+.modal-btn-cancel {
+  background: #f0f0f0;
+  color: #666;
+  width: auto;
+  margin: 0;
+}
+
+.modal-btn-cancel:hover {
+  background: #e0e0e0;
+}
+
+.modal-btn-save {
+  background: #4a90e2;
+  color: white;
+  width: auto;
+  margin: 0;
+}
+
+.modal-btn-save:hover {
+  background: #357abd;
+}
+
+.modal-btn-recurring-delete {
+  background: none;
+  color: #e67e22;
+  border: 1px solid #e67e22;
+  width: 100%;
+  margin: 0;
+}
+
+.modal-btn-recurring-delete:hover {
+  background: #fff8f0;
+}
+
+#modal-icon-picker,
+#modal-color-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* =====================
+   カレンダー
+   ===================== */
+
+#cal-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+#cal-month-label {
+  font-size: 20px;
+  font-weight: 700;
+  color: #4a90e2;
+}
+
+#cal-prev,
+#cal-next {
+  background: none;
+  border: none;
+  color: #4a90e2;
+  font-size: 16px;
+  cursor: pointer;
+  width: auto;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+#cal-prev:hover,
+#cal-next:hover {
+  background: #eee;
+}
+
+#cal-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: #f9f9f9;
+  border-radius: 8px 8px 0 0;
+  border: 1px solid #f0f0f0;
+}
+
+#cal-header span {
+  text-align: center;
+  font-size: 12px;
+  color: #aaa;
+  padding: 8px 0;
+}
+
+.cal-sun {
+  color: #e74c3c !important;
+}
+
+.cal-sat {
+  color: #4a90e2 !important;
+}
+
+#cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border: 1px solid #f0f0f0;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+}
+
+.cal-cell {
+  height: 100px;
+  padding: 6px;
+  border-top: 1px solid #f0f0f0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.cal-cell:hover {
+  background: #f5f8ff;
+}
+
+.cal-day-num {
+  font-size: 13px;
+  color: #333;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.cal-day-num.is-today {
+  background: #4a90e2;
+  color: white;
+}
+
+.cal-day-num.is-selected {
+  background: #e6f1fb;
+  color: #185fa5;
+  font-weight: 700;
+}
+
+.cal-day-num.is-other-month {
+  color: #ccc;
+}
+
+.cal-day-num.is-sun {
+  color: #e74c3c;
+}
+
+.cal-day-num.is-sat {
+  color: #4a90e2;
+}
+
+.cal-dots {
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cal-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.cal-task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 2px;
+  width: 100%;
+}
+
+.cal-task-item {
+  font-size: 10px;
+  color: #555;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 1px 3px;
+  border-radius: 3px;
+  background: #f0f0f0;
+  width: 100%;
+}
+
+#cal-legend {
+  display: flex;
+  gap: 16px;
+  margin-top: 10px;
+  font-size: 11px;
+  color: #aaa;
+}
+
+#cal-legend span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* =====================
+   検索ページ
+   ===================== */
+
+#search-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#search-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+#search-area .ti {
+  color: #aaa;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+#search-input {
+  border: none;
+  padding: 0;
+  font-size: 14px;
+  outline: none;
+  width: 100%;
+  border-radius: 0;
+}
+
+#filter-label {
+  font-size: 13px;
+  color: #888;
+  margin: 0;
+}
+
+#category-filter-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+}
+
+.category-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1.5px solid #ccc;
+  background: white;
+  cursor: pointer;
+  font-size: 13px;
+  color: #555;
+  white-space: nowrap;
+  width: auto;
+}
+
+.category-filter-btn.active {
+  background: #555;
+  border-color: #555;
+  color: white;
+}
+
+#search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.search-date-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.search-date-label {
+  font-size: 12px;
+  color: #aaa;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+#search-empty {
+  text-align: center;
+  color: #aaa;
+  font-size: 14px;
+  margin-top: 24px;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #fff;
+  border: 1px solid #ebebeb;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+}
+
+.search-result-item:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+/* =====================
+   カテゴリページ
+   ===================== */
+
+.category-form-label {
+  font-size: 13px;
+  color: #888;
+  margin: 0 0 8px;
+}
+
+#category-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+#category-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+#category-add-btn {
+  padding: 8px 16px;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#category-add-btn:hover {
+  background: #357abd;
+}
+
+#category-list-header {
+  display: grid;
+  grid-template-columns: 60px 60px 1fr 40px 40px;
+  padding: 0 12px 8px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 8px;
+}
+
+#category-list-header span {
+  font-size: 12px;
+  color: #aaa;
+}
+
+#category-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.category-item {
+  display: grid;
+  grid-template-columns: 60px 60px 1fr 40px 40px;
+  align-items: center;
+  padding: 10px 12px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border-left: 4px solid #4a90e2;
+}
+
+.category-item-icon {
+  font-size: 18px;
+}
+
+.category-item-color {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.category-item-name {
+  font-size: 14px;
+}
+
+.category-edit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #888;
+  font-size: 16px;
+  padding: 4px;
+  width: auto;
+}
+
+.category-delete-btn {
+  background: none;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  padding: 0;
+  width: auto;
+  margin: 0;
+  font-size: 16px;
+}
+
+.category-delete-btn:hover {
+  color: #e74c3c;
+}
+
+#icon-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.icon-option {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  font-size: 18px;
+  color: #555;
+  transition: border-color 0.15s;
+}
+
+.icon-option:hover {
+  border-color: #aaa;
+}
+
+.icon-option.selected {
+  border-color: #4a90e2;
+  color: #4a90e2;
+}
+
+#color-picker {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.color-option {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.color-option.selected {
+  border-color: white;
+  box-shadow: 0 0 0 2px #4a90e2;
+}
+
+/* =====================
+   通知・トースト
+   ===================== */
+
+#toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 200;
+}
+
+.toast {
+  background: #222;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  max-width: 280px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  animation: toast-in 0.3s ease;
+}
+
+.toast.toast-warning {
+  background: #e67e22;
+}
+
+.toast.toast-overdue {
+  background: #e74c3c;
+}
+
+.toast-message {
+  flex: 1;
+  line-height: 1.5;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
+  width: auto;
+  margin: 0;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.toast-close:hover {
+  color: white;
+  background: none;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* =====================
+   紙吹雪
+   ===================== */
+
+#confetti-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* =====================
+   レスポンシブ
+   ===================== */
+
+@media (max-width: 768px) {
+  #sidebar {
+    width: 100%;
+    height: 60px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    top: auto;
+    border-right: none;
+    border-top: 1px solid #f0f0f0;
+    z-index: 80;
+  }
+
+  .sidebar-logo {
+    display: none;
+  }
+
+  .nav-item {
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px 16px;
+    font-size: 10px;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .nav-item .ti {
+    font-size: 22px;
+  }
+
+  .nav-item.active {
+    border-right: none;
+    border-top: 2px solid #4a90e2;
+  }
+
+  .layout {
+    flex-direction: column;
+  }
+
+  .container {
+    padding: 20px 16px 80px;
+    max-width: 100%;
+  }
+
+  #today-date {
+    gap: 8px;
+  }
+
+  #today-main {
+    font-size: 18px;
+  }
+
+  .task-text {
+    font-size: 15px;
+  }
+
+  #fab-btn {
+    bottom: 72px;
+    right: 16px;
+  }
+
+  #add-sheet {
+    max-width: 100%;
+    border-radius: 16px 16px 0 0;
+    padding: 16px 16px 32px;
+  }
+
+  #add-sheet-overlay {
+    justify-content: flex-end;
+  }
+
+  .cal-cell {
+    min-height: 48px;
+    padding: 4px 2px;
+  }
+
+  .cal-day-num {
+    font-size: 11px;
+    width: 22px;
+    height: 22px;
+  }
 }

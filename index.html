@@ -2,59 +2,428 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
+    <!-- viewport: スマホで正しく表示するための設定 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"
+    />
 
     <title>To Do アプリ</title>
   </head>
   <body>
-    <div class="container">
-      <div id="today-date">
-        <p id="today-year"></p>
-        <p id="today-main"></p>
-      </div>
-
-      <form id="todo-form">
-        <div class="form-row">
-          <input
-            type="text"
-            id="todo-input"
-            placeholder="タスクを入力してください"
-          />
+    <div class="layout">
+      <nav id="sidebar">
+        <div class="sidebar-logo">
+          <i class="ti ti-checks" aria-hidden="true"></i> ToDo
         </div>
-        <div class="form-row">
-          <div class="time-field">
-            <label for="start-input">開始時間</label>
-            <input type="time" id="start-input" />
+        <div class="nav-item active" data-page="home">
+          <i class="ti ti-home" aria-hidden="true"></i> ホーム
+        </div>
+        <div class="nav-item" data-page="calendar">
+          <i class="ti ti-calendar" aria-hidden="true"></i> カレンダー
+        </div>
+        <div class="nav-item" data-page="search">
+          <i class="ti ti-search" aria-hidden="true"></i> タスク検索
+        </div>
+        <div class="nav-item" data-page="category">
+          <i class="ti ti-tag" aria-hidden="true"></i> カテゴリ管理
+        </div>
+      </nav>
+      <div class="container">
+        <div id="home-page">
+          <!-- 今日の日付エリア -->
+          <div id="today-date">
+            <button id="prev-date">＜</button>
+            <div id="date-display">
+              <p id="today-year"></p>
+              <p id="today-main"></p>
+            </div>
+            <button id="next-date">＞</button>
+            
+            <div id="progress-area">
+              <span id="progress-title">本日の進捗率</span>
+              <div id="progress-bar-wrap">
+                <div id="progress-bar"></div>
+              </div>
+              <span id="progress-label">0/0</span>
+            </div>
           </div>
-          <div class="time-field">
-            <label for="end-input">終了時間</label>
-            <input type="time" id="end-input" />
+          <!-- フローティングボタン -->
+          <button id="fab-btn" aria-label="タスクを追加">
+            <i class="ti ti-plus"></i>
+          </button>
+
+          <!-- タスク追加シート -->
+          <div id="add-sheet-overlay" class="hidden">
+            <div id="add-sheet">
+              <div id="add-sheet-header">
+                <div id="add-sheet-handle"></div>
+                <button id="add-sheet-close" aria-label="閉じる">
+                  <i class="ti ti-x"></i>
+                </button>
+              </div>
+              <h3 id="add-sheet-title">タスクを追加</h3>
+              <form id="todo-form">
+                <div class="form-row">
+                  <div class="time-field">
+                    <label for="todo-input"><i class="ti ti-pencil"></i> タスク名</label>
+                    <input
+                      type="text"
+                      id="todo-input"
+                      placeholder="タスクを入力してください"
+                    />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="time-field">
+                    <label for="priority-input"><i class="ti ti-flame"></i> 優先度</label>
+                    <select id="priority-input">
+                      <option value="">なし</option>
+                      <option value="high">高</option>
+                      <option value="medium">中</option>
+                      <option value="low">低</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="time-field">
+                    <label for="category-select"><i class="ti ti-tag"></i> カテゴリ</label>
+                    <select id="category-select">
+                      <option value="">なし</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="time-field">
+                    <label for="date-input"
+                      ><i class="ti ti-calendar"></i> 日付</label
+                    >
+                    <input type="date" id="date-input" />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="time-field">
+                    <label for="start-input"
+                      ><i class="ti ti-clock"></i> 開始時間</label
+                    >
+                    <div class="time-input-row">
+                      <input type="time" id="start-input" />
+                      <button type="button" class="time-clear-btn" id="start-clear">
+                        <i class="ti ti-x"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="time-field">
+                    <label for="end-input"
+                      ><i class="ti ti-clock"></i> 終了時間</label
+                    >
+                    <div class="time-input-row">
+                      <input type="time" id="end-input" />
+                      <button type="button" class="time-clear-btn" id="end-clear">
+                        <i class="ti ti-x"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="time-field">
+                    <label for="memo-input"><i class="ti ti-notes"></i> メモ</label>
+                    <textarea id="memo-input" placeholder="メモを入力（任意）" rows="2"></textarea>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div id="options-toggle" class="options-toggle">
+                    オプション <span id="toggle-arrow">▼</span>
+                  </div>
+                </div>
+                <div id="options-area" class="hidden">
+                  <div class="form-row">
+                    <div class="option-field">
+                      <label for="recurring-input">繰り返し</label>
+                      <select id="recurring-input">
+                        <option value="">なし</option>
+                        <option value="daily">毎日</option>
+                        <option value="weekly">毎週</option>
+                        <option value="monthly">毎月</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <button id="add-btn"><i class="ti ti-plus"></i> 追加</button>
+                </div>
+              </form>
+            </div>
           </div>
+
+          <!-- 未完了タスクエリア -->
+          <div class="section hidden" id="active-section">
+            <h2 class="section-title">
+              <i class="ti ti-circle-check"></i>
+              未完了タスク<span id="active-count">0</span>
+            </h2>
+            <!-- JSがここにサブセクションを動的に生成する -->
+            <div id="active-list"></div>
+          </div>
+
+          <!-- 完了タスクエリア -->
+          <div class="section hidden" id="done-section">
+            <h2 class="section-title done-title">
+              <i class="ti ti-check"></i>
+              完了 <span id="done-count">0</span>
+            </h2>
+            <ul id="done-list"></ul>
+          </div>
+
+          <!-- 期限切れタスクエリア -->
+          <div class="section hidden" id="overdue-section">
+            <h2 class="section-title overdue-title">
+              <i class="ti ti-alert-circle"></i>
+              期限切れ <span id="overdue-count">0</span>
+            </h2>
+            <ul id="overdue-list"></ul>
+          </div>
+
+          <!-- 編集モーダル -->
+          <div id="edit-modal" class="modal-overlay hidden">
+            <div class="modal">
+              <h3 class="modal-title">タスクの編集</h3>
+              <div class="modal-field">
+                <label for="modal-task-input"
+                  ><i class="ti ti-pencil"></i> タスク名</label
+                >
+                <input type="text" id="modal-task-input" />
+              </div>
+              <div class="modal-field">
+                <label for="modal-priority"
+                  ><i class="ti ti-flag"></i> 優先度</label
+                >
+                <select id="modal-priority">
+                  <option value="">なし</option>
+                  <option value="high">高</option>
+                  <option value="medium">中</option>
+                  <option value="low">低</option>
+                </select>
+              </div>
+              <div class="modal-field">
+                <label for="modal-category">
+                  <i class="ti ti-tag"></i> カテゴリ</label>
+                <select id="modal-category">
+                  <option value="">なし</option>
+                </select>
+              </div>
+              <div class="modal-field">
+                <label for="modal-start-input"
+                  ><i class="ti ti-clock"></i> 開始時間</label
+                >
+                <div class="time-input-row">
+                  <input type="time" id="modal-start-input" />
+                  <button type="button" class="time-clear-btn" id="modal-start-clear">
+                    <i class="ti ti-x"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="modal-field">
+                <label for="modal-end-input"
+                  ><i class="ti ti-clock"></i> 終了時間</label
+                >
+                <div class="time-input-row">
+                  <input type="time" id="modal-end-input" />
+                  <button type="button" class="time-clear-btn" id="modal-end-clear">
+                    <i class="ti ti-x"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="modal-field">
+                <label for="modal-memo-input"
+                  ><i class="ti ti-notes"></i> メモ</label
+                >
+
+                <!-- 複数行のテキスト入力欄。rows="3"で初期の高さを指定 -->
+                <textarea
+                  id="modal-memo-input"
+                  rows="3"
+                  placeholder="メモを入力してください"
+                ></textarea>
+              </div>
+              <div class="modal-field hidden" id="modal-recurring-field">
+                <button
+                  id="modal-recurring-delete-btn"
+                  class="modal-btn-recurring-delete"
+                >
+                  <i class="ti ti-refresh-off"></i> 繰り返しをすべて削除
+                </button>
+              </div>
+              <div class="modal-actions">
+                <button id="modal-delete-btn" class="modal-btn-delete">
+                  削除
+                </button>
+                <button id="modal-cancel-btn" class="modal-btn-cancel">
+                  キャンセル
+                </button>
+                <button id="modal-save-btn" class="modal-btn-save">保存</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- タスクが0件のときだけ表示。タスクが増えたらJSが非表示にする -->
+          <p id="empty-message">タスクがありません</p>
         </div>
-        <div class="form-row">
-          <button id="add-btn">追加</button>
+        <!-- カレンダーページ -->
+        <div id="calendar-page" class="hidden">
+          <div id="cal-nav">
+            <button id="cal-prev">＜</button>
+            <span id="cal-month-label"></span>
+            <button id="cal-next">＞</button>
+          </div>
+          <div id="cal-header">
+            <span class="cal-sun">日</span>
+            <span>月</span>
+            <span>火</span>
+            <span>水</span>
+            <span>木</span>
+            <span>金</span>
+            <span class="cal-sat">土</span>
+          </div>
+          <div id="cal-grid"></div>
+          <!-- カテゴリ凡例（JSが動的に生成する） -->
+          <div id="cal-legend"></div>
         </div>
-      </form>
-      <!-- 未完了タスクエリア -->
-      <div class="section hidden" id="active-section">
-        <h2 class="section-title">
-          未完了タスク<span id="active-count">0</span>
-        </h2>
+        <!-- 検索ページ -->
+        <div id="search-page" class="hidden">
+          <h2 class="section-title">
+            <i class="ti ti-search"></i> タスク検索
+          </h2>
+          <div id="search-area">
+            <i class="ti ti-search"></i>
+            <input
+              type="text"
+              id="search-input"
+              placeholder="タスクを検索..."
+            />
+          </div>
+          <p id="filter-label"><i class="ti ti-filter"></i> 検索フィルター</p>
+          <div id="category-filter-area">
+            <!-- JSがカテゴリボタンを動的に生成する -->
+          </div>
+          <div id="search-results"></div>
+          <p id="search-empty" class="hidden">該当するタスクがありません</p>
+        </div>
+        <!-- カテゴリページ -->
+        <div id="category-page" class="hidden">
+          <h2 class="section-title">
+            <i class="ti ti-tag"></i> カテゴリ管理
+          </h2>
 
-        <ul id="active-list"></ul>
-      </div>
+          <!-- アイコン選択 -->
+          <p class="category-form-label">アイコン選択</p>
+          <div id="icon-picker">
+            <span class="icon-option selected" data-icon="ti-tag"><i class="ti ti-tag"></i></span>
+            <span class="icon-option" data-icon="ti-briefcase"><i class="ti ti-briefcase"></i></span>
+            <span class="icon-option" data-icon="ti-home"><i class="ti ti-home"></i></span>
+            <span class="icon-option" data-icon="ti-heart"><i class="ti ti-heart"></i></span>
+            <span class="icon-option" data-icon="ti-star"><i class="ti ti-star"></i></span>
+            <span class="icon-option" data-icon="ti-book"><i class="ti ti-book"></i></span>
+            <span class="icon-option" data-icon="ti-music"><i class="ti ti-music"></i></span>
+            <span class="icon-option" data-icon="ti-camera"><i class="ti ti-camera"></i></span>
+            <span class="icon-option" data-icon="ti-plane"><i class="ti ti-plane"></i></span>
+            <span class="icon-option" data-icon="ti-shopping-cart"><i class="ti ti-shopping-cart"></i></span>
+            <span class="icon-option" data-icon="ti-barbell"><i class="ti ti-barbell"></i></span>
+            <span class="icon-option" data-icon="ti-code"><i class="ti ti-code"></i></span>
+            <span class="icon-option" data-icon="ti-pencil"><i class="ti ti-pencil"></i></span>
+            <span class="icon-option" data-icon="ti-pizza"><i class="ti ti-pizza"></i></span>
+            <span class="icon-option" data-icon="ti-car"><i class="ti ti-car"></i></span>
+          </div>
 
-      <!-- 完了タスクエリア -->
-      <div class="section hidden" id="done-section">
-        <h2 class="section-title done-title">
-          完了 <span id="done-count">0</span>
-        </h2>
-        <ul id="done-list"></ul>
-      </div>
+          <!-- カラー選択 -->
+          <p class="category-form-label">カラー選択</p>
+          <div id="color-picker">
+            <span class="color-option selected" data-color="#4a90e2" style="background: #4a90e2;"></span>
+            <span class="color-option" data-color="#e74c3c" style="background: #e74c3c;"></span>
+            <span class="color-option" data-color="#2ecc71" style="background: #2ecc71;"></span>
+            <span class="color-option" data-color="#f39c12" style="background: #f39c12;"></span>
+            <span class="color-option" data-color="#9b59b6" style="background: #9b59b6;"></span>
+            <span class="color-option" data-color="#1abc9c" style="background: #1abc9c;"></span>
+            <span class="color-option" data-color="#e67e22" style="background: #e67e22;"></span>
+            <span class="color-option" data-color="#34495e" style="background: #34495e;"></span>
+          </div>
 
-      <p id="empty-message">タスクがありません</p>
+          <!-- カテゴリ名入力 -->
+          <p class="category-form-label">カテゴリ名</p>
+          <div id="category-form">
+            <input type="text" id="category-input" placeholder="カテゴリ名を入力" />
+            <button id="category-add-btn">
+              <i class="ti ti-plus"></i> 追加
+            </button>
+          </div>
+
+          <!-- カテゴリ一覧ヘッダー -->
+          <div id="category-list-header">
+            <span>アイコン</span>
+            <span>カラー</span>
+            <span>カテゴリ名</span>
+            <span></span>
+            <span></span>
+          </div>
+
+          <!-- カテゴリ一覧 -->
+          <ul id="category-list"></ul>
+        </div>
     </div>
+    <!-- 紙吹雪用キャンバス。JSがアニメーションを描画する -->
+    <canvas id="confetti-canvas"></canvas>  
+    <!-- カテゴリ編集モーダル -->
+<div id="category-edit-modal" class="modal-overlay hidden">
+  <div class="modal">
+    <h3 class="modal-title">カテゴリを編集</h3>
+    <div class="modal-field">
+      <p class="category-form-label">アイコン選択</p>
+      <div id="modal-icon-picker">
+        <span class="icon-option selected" data-icon="ti-tag"><i class="ti ti-tag"></i></span>
+        <span class="icon-option" data-icon="ti-briefcase"><i class="ti ti-briefcase"></i></span>
+        <span class="icon-option" data-icon="ti-home"><i class="ti ti-home"></i></span>
+        <span class="icon-option" data-icon="ti-heart"><i class="ti ti-heart"></i></span>
+        <span class="icon-option" data-icon="ti-star"><i class="ti ti-star"></i></span>
+        <span class="icon-option" data-icon="ti-book"><i class="ti ti-book"></i></span>
+        <span class="icon-option" data-icon="ti-music"><i class="ti ti-music"></i></span>
+        <span class="icon-option" data-icon="ti-camera"><i class="ti ti-camera"></i></span>
+        <span class="icon-option" data-icon="ti-plane"><i class="ti ti-plane"></i></span>
+        <span class="icon-option" data-icon="ti-shopping-cart"><i class="ti ti-shopping-cart"></i></span>
+        <span class="icon-option" data-icon="ti-barbell"><i class="ti ti-barbell"></i></span>
+        <span class="icon-option" data-icon="ti-code"><i class="ti ti-code"></i></span>
+        <span class="icon-option" data-icon="ti-pencil"><i class="ti ti-pencil"></i></span>
+        <span class="icon-option" data-icon="ti-pizza"><i class="ti ti-pizza"></i></span>
+        <span class="icon-option" data-icon="ti-car"><i class="ti ti-car"></i></span>
+      </div>
+    </div>
+    <div class="modal-field">
+      <p class="category-form-label">カラー選択</p>
+      <div id="modal-color-picker">
+        <span class="color-option selected" data-color="#4a90e2" style="background:#4a90e2;"></span>
+        <span class="color-option" data-color="#e74c3c" style="background:#e74c3c;"></span>
+        <span class="color-option" data-color="#2ecc71" style="background:#2ecc71;"></span>
+        <span class="color-option" data-color="#f39c12" style="background:#f39c12;"></span>
+        <span class="color-option" data-color="#9b59b6" style="background:#9b59b6;"></span>
+        <span class="color-option" data-color="#1abc9c" style="background:#1abc9c;"></span>
+        <span class="color-option" data-color="#e67e22" style="background:#e67e22;"></span>
+        <span class="color-option" data-color="#34495e" style="background:#34495e;"></span>
+      </div>
+    </div>
+    <div class="modal-field">
+      <label for="modal-category-input"><i class="ti ti-tag"></i> カテゴリ名</label>
+      <input type="text" id="modal-category-input" />
+    </div>
+    <div class="modal-actions">
+      <button id="category-modal-cancel-btn" class="modal-btn-cancel">キャンセル</button>
+      <button id="category-modal-save-btn" class="modal-btn-save">保存</button>
+    </div>
+  </div>
+</div>
+    <!-- トースト通知 -->
+    <div id="toast-container"></div>
     <script src="./js/main.js"></script>
   </body>
 </html>
