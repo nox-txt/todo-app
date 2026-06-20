@@ -1328,7 +1328,7 @@ li.overdue .task-time {
   }
 
   .container {
-    padding: 20px 16px calc(100px + env(safe-area-inset-bottom));
+    padding: 20px 16px calc(120px + env(safe-area-inset-bottom));
     max-width: 100%;
   }
 
@@ -1345,7 +1345,7 @@ li.overdue .task-time {
   }
 
   #fab-btn {
-    bottom: 72px;
+    bottom: calc(90px + env(safe-area-inset-bottom));
     right: 16px;
   }
 
