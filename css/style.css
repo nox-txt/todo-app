@@ -1279,9 +1279,9 @@ li.overdue .task-time {
     width: 100%;
     height: calc(60px + env(safe-area-inset-bottom));
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-around;
-    padding: 0 0 env(safe-area-inset-bottom);
+    padding: 0;
     position: fixed;
     bottom: 0;
     left: 0;
