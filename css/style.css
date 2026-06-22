@@ -1277,13 +1277,13 @@ li.overdue .task-time {
 @media (max-width: 768px) {
   #sidebar {
     width: 100%;
-    height: calc(75px + env(safe-area-inset-bottom));
+    height: 60px;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
     padding: 0;
     position: fixed;
-    bottom: 0;
+    bottom: env(safe-area-inset-bottom);
     left: 0;
     top: auto;
     border-right: none;
@@ -1328,7 +1328,7 @@ li.overdue .task-time {
   }
 
   .container {
-    padding: 20px 16px calc(120px + env(safe-area-inset-bottom));
+    padding: 20px 16px calc(80px + env(safe-area-inset-bottom));
     max-width: 100%;
   }
 
@@ -1345,7 +1345,7 @@ li.overdue .task-time {
   }
 
   #fab-btn {
-    bottom: calc(90px + env(safe-area-inset-bottom));
+    bottom: calc(75px + env(safe-area-inset-bottom));
     right: 16px;
   }
 
