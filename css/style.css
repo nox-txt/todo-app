@@ -1283,7 +1283,7 @@ li.overdue .task-time {
     justify-content: space-around;
     padding: 0;
     position: fixed;
-    bottom: env(safe-area-inset-bottom);
+    bottom: calc(env(safe-area-inset-bottom) + 16px);
     left: 0;
     top: auto;
     border-right: none;
@@ -1328,7 +1328,7 @@ li.overdue .task-time {
   }
 
   .container {
-    padding: 20px 16px calc(80px + env(safe-area-inset-bottom));
+    padding: 20px 16px calc(100px + env(safe-area-inset-bottom));
     max-width: 100%;
   }
 
@@ -1345,7 +1345,7 @@ li.overdue .task-time {
   }
 
   #fab-btn {
-    bottom: calc(75px + env(safe-area-inset-bottom));
+    bottom: calc(90px + env(safe-area-inset-bottom));
     right: 16px;
   }
 
