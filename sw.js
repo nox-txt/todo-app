@@ -1,5 +1,5 @@
 // キャッシュの名前（バージョンを上げると古いキャッシュを更新できる）
-const CACHE_NAME = "todo-cache-v4";
+const CACHE_NAME = "todo-cache-v5";
 
 // オフラインでも使えるようにキャッシュしておくファイルの一覧
 const ASSETS = [

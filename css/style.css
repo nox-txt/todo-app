@@ -1371,12 +1371,10 @@ li.overdue .task-time {
   }
 }
 
-@media (display-mode: standalone) {
-  #sidebar {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-  .nav-item {
-    padding: 8px 0 0;
-    justify-content: center;
-  }
+body.standalone #sidebar {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+body.standalone .nav-item {
+  padding: 8px 0 0;
+  justify-content: center;
 }

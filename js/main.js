@@ -1694,3 +1694,11 @@ renderCategoryOptions();
 dateInput.value = currentDate;
 loadTasks();
 applyFilters();
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./sw.js");
+}
+
+if (window.navigator.standalone) {
+  document.body.classList.add("standalone");
+}
