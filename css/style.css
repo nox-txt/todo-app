@@ -1370,3 +1370,10 @@ li.overdue .task-time {
     height: 22px;
   }
 }
+
+@media (display-mode: standalone) {
+  .nav-item {
+    padding: 8px 0 0;
+    justify-content: center;
+  }
+}
